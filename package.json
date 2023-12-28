@@ -11,6 +11,10 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "flatpickr": "^4.6.13"
+        "@material/slider": "^14.0.0",
+        "flatpickr": "^4.6.13",
+        "leaflet": "^1.9.4",
+        "range-slider-input": "^2.4.4",
+        "react-double-range-slider": "^3.0.1"
     }
 }

@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::MpGoh8eeqeSoVFZy',
+            '_route' => 'generated::4Ax5up58Unme4gDQ',
           ),
           1 => NULL,
           2 => 
@@ -162,7 +162,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0HkXrMY4cGaY4LUH',
+            '_route' => 'generated::Tk9CcXdM40e26a48',
           ),
           1 => NULL,
           2 => 
@@ -473,6 +473,26 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/filterPrices' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'filterPrices',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
@@ -664,7 +684,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::MpGoh8eeqeSoVFZy' => 
+    'generated::4Ax5up58Unme4gDQ' => 
     array (
       'methods' => 
       array (
@@ -681,13 +701,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:77:"function (\\Illuminate\\Http\\Request $request) {
     return $request->user();
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000035c0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000005480000000000000000";}}',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
         array (
         ),
-        'as' => 'generated::MpGoh8eeqeSoVFZy',
+        'as' => 'generated::4Ax5up58Unme4gDQ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -719,7 +739,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:50:"function () {
     return \\view(\'website.index\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000035e0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000054a0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -786,7 +806,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0HkXrMY4cGaY4LUH' => 
+    'generated::Tk9CcXdM40e26a48' => 
     array (
       'methods' => 
       array (
@@ -807,7 +827,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0HkXrMY4cGaY4LUH',
+        'as' => 'generated::Tk9CcXdM40e26a48',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1427,6 +1447,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'filterAmenity',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'filterPrices' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'filterPrices',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\FilterController@filterPrices',
+        'controller' => 'App\\Http\\Controllers\\FilterController@filterPrices',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'filterPrices',
       ),
       'fallback' => false,
       'defaults' => 

@@ -1,6 +1,134 @@
 @extends('master.website.master')
 @section('content')
-    
+  
+<style>
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.wrapper {
+  position: relative;
+  width: 85%;
+  background-color: #ffffff;
+  /* padding: 50px 40px 20px 40px; */
+  border-radius: 10px;
+}
+.container {
+  position: relative;
+  /* width: 100%; */
+  /* height: 100px; */
+  margin-top: 30px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  outline: none;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  pointer-events: none;
+}
+.slider-track {
+  width: 100%;
+  height: 5px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  border-radius: 5px;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 5px;
+}
+input[type="range"]::-moz-range-track {
+  -moz-appearance: none;
+  height: 5px;
+}
+input[type="range"]::-ms-track {
+  appearance: none;
+  height: 5px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  background-color: #3264fe;
+  cursor: pointer;
+  margin-top: -9px;
+  pointer-events: auto;
+  border-radius: 50%;
+}
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #3264fe;
+  pointer-events: auto;
+  border: none;
+}
+input[type="range"]::-ms-thumb {
+  appearance: none;
+  height: 1.7em;
+  width: 1.7em;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #3264fe;
+  pointer-events: auto;
+}
+input[type="range"]:active::-webkit-slider-thumb {
+  background-color: #ffffff;
+  border: 1px solid #3264fe;
+}
+.values {
+  background-color: #3264fe;
+    width: 34%;
+    position: relative;
+    margin: auto;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 13px;
+    color: #ffffff;
+}
+.values:before {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-top: 15px solid #3264fe;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  margin: auto;
+  bottom: -14px;
+  left: 0;
+  right: 0;
+}
+
+#spinner-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8); /* Adjust the background color and opacity */
+  z-index: 9999;
+}
+#map-container { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+</style>
 
 {{-- ////////////////////////////////////////////////////////// --}}
     <section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
@@ -72,6 +200,7 @@
                       </div>
                     </div>
                     <div class="col-md-6 mb-3 mb-md-0">
+
                       <label for="children" class="font-weight-bold text-black">Children</label>
                       <div class="field-icon-wrap">
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
@@ -120,11 +249,13 @@
                         <input class="form-control" placeholder="Where to Go ?" type="text">
                         <button type="submit"> <i class="fa fa-search"></i> </button>
                     </form> --}}
+                    {{-- slider price --}}
+                    
                 </div>
                 <div class="filter-sidebar-left">
                     <div class="title-left">
                         <h3>Categories</h3>
-                    </div>
+                        
                     <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
                         <div class="list-group-collapse sub-men">
                           <?php $amenities = App\Models\Amenties::all();
@@ -162,39 +293,68 @@
                         <h3>Price</h3>
                     </div>
                     <div class="price-box-slider">
-                        <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0.875%; width: 74.125%;"></div><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 0.875%;"></span><span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 75%;"></span></div>
-                        <p>
-                            <input type="text" id="amount" readonly="" style="border:0; color:#fbb714; font-weight:bold;">
-                            <button class="btn hvr-hover" type="submit">Filter</button>
-                        </p>
+                      <div class="wrapper">
+                        <div class="values">
+                          <span id="range1">
+                            5000
+                          </span>
+                          <span> &dash; </span>
+                          <span id="range2">
+                            7000
+                          </span>
+                        </div>
+                        <div class="container">
+                          <?php 
+                          $villaIDs =[];
+                          foreach($villa as $v){ 
+                            $villaIDs[]  = $v->id;
+                            $villaIDsString = implode(',', $villaIDs);
+                           }
+                            ?>
+                          
+                          <input type="text" name="villa_ids" id="VillaIDs" value="{{$villaIDsString}}" hidden>
+                          <div class="slider-track"></div>
+                          <input type="range" min="4500" max="25000" value="5000" id="slider-1" oninput="slideOne()">
+                          <input type="range" min="4500" max="25000" value="7000" id="slider-2" oninput="slideTwo()">
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="row col-md-8 col-lg-4 mb-5" id="villaContainer" data-aos="fade-up">
-        
-          <?php 
-          foreach($villa as $v){ 
-            $images  = explode(',',$v->images);
-            ?>
-            
-            <a href="{{ route('singleVilla') }}?checkin={{ $urlData['checkindate'] ?? '' }}&checkout={{ $urlData['checkoutdate'] ?? '' }}&guests={{ $urlData['guests'] ?? '' }}&property_id={{ $v->id }}&adults={{ $adults ?? '' }}&children={{ $children ?? '' }}" class="room">
-       
-              <figure class="img-wrap">
-                <img src="{{asset('assets/villa_images/'.$images[1])}}" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>{{$v->name}}</h2>
-                <span class="text-uppercase letter-spacing-1">₹{{$v->price_per_night}} / per night</span>
               </div>
-            </a>
-            <?php }?>
-          
-        
-        </div>
-          
+              
+            </div>
+            
+            <div class="row col-md-6 col-lg-4 mb-5" id="villaContainer" data-aos="fade-up">
 
+                  <?php 
+              $villaIDs =[];
+              foreach($villa as $v){ 
+                $villaIDs [] = $v->id; 
+                $images  = explode(',',$v->images);
+                ?>
+                
+                <a href="{{ route('singleVilla') }}?checkin={{ $urlData['checkindate'] ?? '' }}&checkout={{ $urlData['checkoutdate'] ?? '' }}&guests={{ $urlData['guests'] ?? '' }}&property_id={{ $v->id }}&adults={{ $adults ?? '' }}&children={{ $children ?? '' }}" class="room">
+                  
+                  
+                  <figure class="img-wrap">
+                    <img src="{{asset('assets/villa_images/'.$images[1])}}" alt="Free website template" class="img-fluid mb-3">
+                  </figure>
+                  <div class="p-3 text-center room-info">
+                    <h2>{{$v->name}}</h2>
+                    <span class="text-uppercase letter-spacing-1">₹{{$v->price_per_night}} / per night</span>
+                  </div>
+                </a>
+                <?php }?>
+            </div>
+            <div class="row col-md-6 col-lg-4 mb-5 mx-5" id="villaContainer" data-aos="fade-up">
+              <div id="map-container" style="height: 400px;"></div>
+            </div>
+            <div id="spinner-overlay" class="d-flex justify-content-center align-items-center" style="visibility: hidden">
+              <div class="spinner-border "  style="width: 8rem;height: 8rem;border-width: thick;color: rgb(4, 153, 4); display: none" role="status">
+                <span class="visually-hidden"></span>
+              </div>
+            </div>
         </div>
       </div>
     </section>
@@ -248,10 +408,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
    selectedAmenity = [];
-
+   var $villaIDsString = [];
+   var  timeoutId ;
     $('.amenityFilter').on('change', function () {
+      clearTimeout(timeoutId);
         var value = $(this).val();
-
         if ($.inArray(value, selectedAmenity) !== -1) {
             selectedAmenity.splice($.inArray(value, selectedAmenity), 1);
         } else {
@@ -259,6 +420,9 @@
         }
         villaContainer = $('#villaContainer');
         villaContainer.empty();
+        $('#spinner-overlay').css('visibility','visible');
+        $('.spinner-border').show();
+        timeoutId =setTimeout(() => {
         $.ajax({
           type: "get",
           url: "{{url('/filterAmenity')}}",
@@ -267,10 +431,18 @@
             location:'{{$urlData["travel_location"]}}',
           },
           success: function (response) {
-              
               $villas = response.success;
               console.log($villas);
                 $.each($villas, function (index, villa) { 
+                  if($villaIDsString.includes(villa.id)){
+                     $villaIDsString.pop(villa.id);
+                  } else {
+                      // Add villa.id if it's not in $villaIDsString
+                      $villaIDsString.push(villa.id);
+                  }
+                  // $villaIDsString = Array.from(new Set($villaIDsString));
+                  
+                  $('#VillaIDs').val($villaIDsString);
                   var images = villa.images.split(',');
                   var imageUrl = '{{ asset("assets/villa_images/") }}' + '/' + images[1];
                   var villaHtml = ' <a href="{{ route("singleVilla") }}?checkin=' + encodeURIComponent("{{ $urlData['checkindate'] ?? '' }}") +
@@ -291,10 +463,15 @@
                                 villaContainer.append(villaHtml);
 
                 });
-            }
-          });
+              }
+            });
+              $('#spinner-overlay').css('visibility','hidden');
+              $('.spinner-border').hide();
+            }, 1200);
 
     });
+/////////////////////////
+
 
     </script>
 
@@ -333,43 +510,158 @@
   });
 
 </script>
+{{-- send to json file lol --}}
+    <script>
+      var villaData = @json($villa)
+    </script>
+  <script>
+      var timeoutId;
 
+      $('#travel_to').on('keyup', function (e) {
+      e.preventDefault();
+      var travel_location = $(this).val();
 
-<script>
-var timeoutId;
+      // Clear the previous timeout to avoid multiple requests
+      clearTimeout(timeoutId);
 
-$('#travel_to').on('keyup', function (e) {
-e.preventDefault();
-var travel_location = $(this).val();
-
-// Clear the previous timeout to avoid multiple requests
-clearTimeout(timeoutId);
-
-// Set a new timeout to delay the AJAX request
-timeoutId = setTimeout(function () {
-$('#dropmenu').empty(); // Clear previous suggestions
-$.ajax({
-  type: "get",
-  url: "{{ url('/search/location') }}",
-  data: {
-    travel_location: travel_location,
-  },
-  success: function (response) {
-    for (result of response) {
-      console.log(result['city'], result['state'], result['country']);
-      $('#dropmenu').append(`<li class="dropdown-item dropitem" style="cursor:pointer">${result['city']}, ${result['state']}, ${result['country']}</li>`);
-    }
-    $('#dropmenu').show(); // Show the dropdown after adding suggestions
-      }
+      // Set a new timeout to delay the AJAX request
+      timeoutId = setTimeout(function () {
+      $('#dropmenu').empty(); // Clear previous suggestions
+      $.ajax({
+        type: "get",
+        url: "{{ url('/search/location') }}",
+        data: {
+          travel_location: travel_location,
+        },
+        success: function (response) {
+          for (result of response) {
+            console.log(result['city'], result['state'], result['country']);
+            $('#dropmenu').append(`<li class="dropdown-item dropitem" style="cursor:pointer">${result['city']}, ${result['state']}, ${result['country']}</li>`);
+          }
+          $('#dropmenu').show(); // Show the dropdown after adding suggestions
+            }
+          });
+        }, 1200); // Adjust the delay as needed (e.g., 500 milliseconds)
+      });
+  </script>
+  <script>
+    $('#dropmenu').on('click', '.dropdown-item', function () {
+    loc = $(this).text();
+    $('#travel_to').val(loc);
+    $('#dropmenu').hide();
     });
-  }, 1500); // Adjust the delay as needed (e.g., 500 milliseconds)
-});
+  </script>
+
+
+<script>
+  var  timeoutId ;
+      //   window.onload = function () {
+      //   slideOne();
+      //   slideTwo();
+      // };
+
+      let sliderOne = document.getElementById("slider-1");
+      let sliderTwo = document.getElementById("slider-2");
+      let displayValOne = document.getElementById("range1");
+      let displayValTwo = document.getElementById("range2");
+      let minGap = 0;
+      let sliderTrack = document.querySelector(".slider-track");
+      let sliderMaxValue = document.getElementById("slider-1").max;
+
+      function slideOne() {
+        if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+          sliderOne.value = parseInt(sliderTwo.value) - minGap;
+        }
+        villaContainer = $('#villaContainer');
+        villaContainer.empty();
+        displayValOne.textContent = sliderOne.value;
+        // console.log(sliderTwo.value)
+      
+       
+
+        updatePrices();
+        fillColor();
+      }
+      function slideTwo() {
+        if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+          sliderTwo.value = parseInt(sliderOne.value) + minGap;
+        }
+        villaContainer = $('#villaContainer');
+        villaContainer.empty();
+        displayValTwo.textContent = sliderTwo.value;
+        // console.log(sliderTwo.value)
+        updatePrices();
+        fillColor();
+      }
+      function fillColor() {
+        percent1 = (sliderOne.value / sliderMaxValue) * 70;
+        percent2 = (sliderTwo.value / sliderMaxValue) * 70;
+        sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`;
+      }
+      function updatePrices(){
+        clearTimeout(timeoutId);
+        ids = $('#VillaIDs').val();
+        villaContainer = $('#villaContainer');
+        villaContainer.empty();
+        $('#spinner-overlay').css('visibility','visible');
+        $('.spinner-border').show();
+       
+        timeoutId =setTimeout(() => {
+          $.ajax({
+            type: "get",
+            url: "{{url('/filterPrices')}}",
+            data: {
+              ids:ids,
+              priceLow : parseInt(sliderOne.value),
+              priceHigh : parseInt(sliderTwo.value),
+            },
+            success: function (response) {
+                $villas = response.success;
+                $.each($villas, function (index, villa) {
+                    var images = villa.images.split(',');
+                    var imageUrl = '{{ asset("assets/villa_images/") }}' + '/' + images[1];
+                    var villaHtml = ' <a href="{{ route("singleVilla") }}?checkin=' + encodeURIComponent("{{ $urlData['checkindate'] ?? '' }}") +
+                                  '&checkout=' + encodeURIComponent("{{ $urlData['checkoutdate'] ?? '' }}") +
+                                  '&guests=' + encodeURIComponent("{{ $urlData['guests'] ?? '' }}") +
+                                  '&property_id=' + villa.id +
+                                  '&adults=' + encodeURIComponent("{{ $adults ?? '' }}") +
+                                  '&children=' + encodeURIComponent("{{ $children ?? '' }}") +
+                                  '" class="room">' +
+                                  '<figure class="img-wrap">' +
+                                  '<img src="' + imageUrl + '" alt="Villa Image" class="img-fluid mb-3">' +
+                                  '</figure>' +
+                                  '<div class="p-3 text-center room-info">' +
+                                  '<h2>' + villa.name + '</h2>' +
+                                  '<span class="text-uppercase letter-spacing-1">₹' + villa.price_per_night + ' / per night</span>' +
+                                  '</div>' +
+                                  '</a>';
+                                  villaContainer.append(villaHtml);
+                  });
+                },
+                
+              });
+                  $('#spinner-overlay').css('visibility','hidden');
+                  $('.spinner-border').hide();
+              }, 1200);
+      }
+
+
 </script>
 <script>
-$('#dropmenu').on('click', '.dropdown-item', function () {
-loc = $(this).text();
-$('#travel_to').val(loc);
-$('#dropmenu').hide();
-});
+  // Initialize the map
+  windows.onload = function (){
+
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([51.5, -0.09]).addTo(map)
+        .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
+  }
 </script>
+
+
     @endsection

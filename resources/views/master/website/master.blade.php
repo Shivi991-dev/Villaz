@@ -12,13 +12,20 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-double-range-slider@3.0.1/dist/cjs/index.min.js"></script>
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+   <!-- Metro UI -->
+   {{-- MAPSSS --}}
+   <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+       <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/animate.css')}}">
     <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/aos.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/jquery.timepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/fancybox.min.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
     <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700" rel="stylesheet">
@@ -193,6 +200,8 @@
       
   
       <script src="{{asset('js/main.js')}}"></script>
+      {{-- MAPBOX JS FILE --}}
+      <script src="{{asset('js/mapbox.js')}}"></script>
 {{-- VILLA SINGLE SCRIPTS --}}
 <script src="{{asset('villa-single/js/jquery.min.js')}}"></script>
 <script src="{{asset('villa-single/js/jquery-migrate-3.0.1.min.js')}}"></script>
@@ -214,6 +223,7 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<script src="https://cdn.metroui.org.ua/current/metro.js"></script>
 
 {{-- VILLA SINGLE --}}
       @if (session('error'))

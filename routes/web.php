@@ -55,3 +55,5 @@ Route::group(['middleware' => ['auth', 'checkroles:2']], function () {
 
 // ///////////// FILTERS   ////////// ////
 Route::get('/filterAmenity',[FilterController::class,'filterAmenity'])->name('filterAmenity');
+Route::get('/filterPrices', [FilterController::class, 'filterPrices'])->name('filterPrices');
+

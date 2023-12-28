@@ -65,4 +65,13 @@ class FilterController extends Controller
         }
     
     }
+
+
+    function filterPrices(Request $req){
+        $ids  = explode(',',$req->ids);
+        $numericIds = array_map('intval', $ids);
+
+        $villa = Villa::whereIn('id',$numericIds)->whereBetween('price_per_night', [$req->priceLow, $req->priceHigh])->get();
+        return response()->json(['success'=>$villa]);
+    }
 }
