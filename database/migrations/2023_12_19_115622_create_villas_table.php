@@ -19,7 +19,10 @@ return new class extends Migration
             $table->integer('guests');            
             $table->string('amenities');            
             $table->string('owner');            
-            $table->bigInteger('price_per_night');            
+            $table->bigInteger('price_per_night'); 
+            $table->double('latitude'); 
+            $table->double('longitude'); 
+
             $table->timestamps();
         });
     }

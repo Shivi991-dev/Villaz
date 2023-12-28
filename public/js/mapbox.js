@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
     container: 'map-container',
     style: 'mapbox://styles/mapbox/standard',
     center: [73.38342044855642, 18.77749495535647], // Set the initial center based on the first feature
-    zoom: 3
+    zoom: 5
 });
 
 map.on('load', () => {
@@ -113,7 +113,7 @@ map.on('load', () => {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(`${villaName}<br>Price/Night: ${pricePerNight}`)
+            .setHTML(`${villaName}<br>Price/Night : ₹ ${pricePerNight}`)
             .addTo(map);
     });
 
