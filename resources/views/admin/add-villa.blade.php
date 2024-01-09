@@ -311,8 +311,17 @@
                   <input type="text" class="form-control" name="price" id="inputAddress2" placeholder="₹ Price">
                 </div>
                 <div class="col-6">
-                  <label for="inputAddress2" class="form-label">Max Guests</label>
+                <label for="inputAddress2" class="form-label">Max Guests</label>
                   <input type="number" class="form-control" name="guests" id="inputAddress2" placeholder="No. of Guests Allowed">
+                </div>
+                <div class="col-6">
+                <label for="inputAddress2" class="form-label">TAGS</label>
+                  <input type="text" class="form-control" name="guests" id="tags" placeholder="Add Tags">
+                <ul>
+                  <li class="row" id="tagslist" >
+
+                  </li>
+                </ul>
                 </div>
                 <h3>Property Layout</h3>
 
@@ -410,5 +419,36 @@
           </div>
     </section>
 </main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  var $tags = []; 
 
+$('#tags').on('keydown', function(e) {
+  // e.preventDefault();
+    if (e.keyCode === 32) {
+        e.preventDefault();
+        var tagValue = $(this).val().trim();
+        if (tagValue !== '') {
+            $tags.push(tagValue);
+            $('#tagslist').append('<div class="col-sm-3"><span class="badge bg-secondary">'+ tagValue +' '+ '<i class="ri-close-circle-line" data-id="'+tagValue+'" style="cursor:pointer"> </i></span></div>')
+            $(this).val('');
+
+           
+        }
+    }
+});
+  
+$(document).on('click', '.ri-close-circle-line', function() {
+    var removedTag = $(this).data('id');
+    $tags = $tags.filter(function(tag) {
+        return tag !== removedTag;
+    });
+    $(this).closest('.col-sm-3').remove();
+});
+
+
+
+
+</script>
 @endsection

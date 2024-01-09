@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <img src="http://127.0.0.1:8000/images/img_1.jpg" alt=""  width="20px" srcset="">
     <p>Name = {{ $user['fname']}} {{ $user['lname']}}</p>
     <p>Email = {{ $user['email']}}</p>
     <h3>Click To Verify Email </h3>
